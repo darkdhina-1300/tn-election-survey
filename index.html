@@ -1,144 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TN Election 2026 Voter Survey</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: linear-gradient(to bottom right, #ffffff, #e6f0ff);
+      background: linear-gradient(to right, #138808, #ffffff, #ff9933, #0000ff);
       margin: 0;
       padding: 0;
       display: flex;
-      flex-direction: column;
+      justify-content: center;
       align-items: center;
-      justify-content: flex-start;
       min-height: 100vh;
     }
-    header {
-      text-align: center;
-      padding: 20px;
-    }
-    header img {
-      max-width: 100px;
-      margin-bottom: 10px;
-    }
-    header h1 {
-      font-size: 1.5rem;
-      color: #004080;
-    }
     .form-card {
-      background: #fff;
+      background: white;
       padding: 20px;
-      margin: 20px;
       border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      width: 100%;
-      max-width: 450px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      width: 90%;
+      max-width: 400px;
     }
-    .form-group {
-      margin-bottom: 15px;
-    }
-    .form-group label {
+    .form-card img {
       display: block;
-      font-weight: bold;
-      margin-bottom: 5px;
-      color: #333;
+      margin: 0 auto 10px;
+      width: 80px;
     }
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+    }
+    input, select, textarea {
       width: 100%;
       padding: 8px;
-      border: 1px solid #aaa;
+      margin-bottom: 12px;
       border-radius: 6px;
-      font-size: 1rem;
-    }
-    textarea {
-      min-height: 80px;
-      resize: vertical;
+      border: 1px solid #ccc;
     }
     button {
       width: 100%;
-      padding: 12px;
-      background: linear-gradient(45deg, #ff9933, #138808, #000080);
+      padding: 10px;
+      background: #138808;
+      color: white;
       border: none;
-      border-radius: 8px;
-      color: #fff;
-      font-size: 1rem;
+      border-radius: 6px;
       cursor: pointer;
-      font-weight: bold;
+      font-size: 16px;
     }
     button:hover {
-      opacity: 0.9;
+      background: #0f6605;
     }
-    .success-msg, .error-msg {
+    .success-msg {
+      color: green;
       text-align: center;
-      margin-top: 15px;
-      font-weight: bold;
     }
-    .success-msg { color: green; }
-    .error-msg { color: red; }
+    .error-msg {
+      color: red;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
-  <header>
-    <img src="logo.png" alt="Election Logo"/>
-    <h1>TN Election 2026 Voter Survey</h1>
-  </header>
-
   <div class="form-card">
+    <img src="logo.png" alt="Election Logo">
+    <h2>TN Election 2026 Voter Survey</h2>
     <form id="survey-form">
-      <div class="form-group">
-        <label for="name">Name *</label>
-        <input type="text" id="name" name="name" required/>
-      </div>
+      <label for="name">Name *</label>
+      <input type="text" id="name" name="name" required>
 
-      <div class="form-group">
-        <label for="mobile">Mobile Number *</label>
-        <input type="tel" id="mobile" name="mobile" pattern="[0-9]{10}" maxlength="10" required/>
-      </div>
+      <label for="mobile">Mobile Number *</label>
+      <input type="number" id="mobile" name="mobile" required pattern="\d{10}">
 
-      <div class="form-group">
-        <label for="email">Email (Optional)</label>
-        <input type="email" id="email" name="email" placeholder="example@mail.com"/>
-      </div>
+      <label for="city">City *</label>
+      <input type="text" id="city" name="city" required>
 
-      <div class="form-group">
-        <label for="city">City *</label>
-        <input type="text" id="city" name="city" required/>
-      </div>
+      <label for="pincode">Pin Code *</label>
+      <input type="number" id="pincode" name="pincode" required pattern="\d{6}">
 
-      <div class="form-group">
-        <label for="pincode">Pin Code *</label>
-        <input type="number" id="pincode" name="pincode" pattern="[0-9]{6}" required/>
-      </div>
+      <label for="vote">Your Vote for TN Election 2026 *</label>
+      <select id="vote" name="vote" required>
+        <option value="">-- Select a Party --</option>
+        <option value="DMK">Dravida Munnetra Kazhagam (DMK)</option>
+        <option value="AIADMK">All India Anna Dravida Munnetra Kazhagam (AIADMK)</option>
+        <option value="TVK">Tamilaga Vettri Kazhagam (TVK)</option>
+        <option value="VCK">Viduthalai Chiruthaigal Katchi (VCK)</option>
+        <option value="NTK">Naam Tamilar Katchi (NTK)</option>
+        <option value="PMK">Pattali Makkal Katchi (PMK)</option>
+        <option value="INC">Indian National Congress (INC)</option>
+        <option value="BJP">Bharatiya Janata Party (BJP)</option>
+        <option value="CPI">Communist Party of India (CPI)</option>
+      </select>
 
-      <div class="form-group">
-        <label for="vote">Your Vote for TN Election 2026 *</label>
-        <select id="vote" name="vote" required>
-          <option value="">-- Select a Party --</option>
-          <option value="DMK">Dravida Munnetra Kazhagam (DMK)</option>
-          <option value="AIADMK">All India Anna Dravida Munnetra Kazhagam (AIADMK)</option>
-          <option value="TVK">Tamilaga Vettri Kazhagam (TVK)</option>
-          <option value="VCK">Viduthalai Chiruthaigal Katchi (VCK)</option>
-          <option value="NTK">Naam Tamilar Katchi (NTK)</option>
-          <option value="PMK">Pattali Makkal Katchi (PMK)</option>
-          <option value="INC">Indian National Congress (INC)</option>
-          <option value="BJP">Bharatiya Janata Party (BJP)</option>
-          <option value="CPI">Communist Party of India (CPI)</option>
-        </select>
-      </div>
+      <label for="email">Email (Optional)</label>
+      <input type="email" id="email" name="email">
 
-      <div class="form-group">
-        <label for="comments">Comments (Optional)</label>
-        <textarea id="comments" name="comments" placeholder="Your additional thoughts..."></textarea>
-      </div>
+      <label for="comment">Comments</label>
+      <textarea id="comment" name="comment" rows="3"></textarea>
 
       <button type="submit">Submit</button>
-      <div id="message"></div>
     </form>
+    <div id="message"></div>
   </div>
 
   <script>
@@ -147,44 +115,27 @@
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const formData = new FormData(form);
-
-      // Build Issue JSON
-      const issue = {
-        title: `New Survey Response from ${formData.get("name")}`,
-        body:
-          `**Name:** ${formData.get("name")}\n` +
-          `**Mobile:** ${formData.get("mobile")}\n` +
-          `**City:** ${formData.get("city")}\n` +
-          `**Pin Code:** ${formData.get("pincode")}\n` +
-          `**Vote:** ${formData.get("vote")}\n` +
-          `**Email:** ${formData.get("email") || "N/A"}\n` +
-          `**Comments:** ${formData.get("comments") || "N/A"}\n`
-      };
+      const formData = Object.fromEntries(new FormData(form));
 
       try {
-        const response = await fetch("https://api.github.com/repos/darkdhina-1300/tn-election-survey/issues", {
+        const res = await fetch("/.netlify/functions/createIssue", {
           method: "POST",
-          headers: {
-            "Authorization": "token YOUR_PERSONAL_ACCESS_TOKEN",
-            "Accept": "application/vnd.github+json"
-          },
-          body: JSON.stringify(issue)
+          body: JSON.stringify(formData)
         });
 
-        if (response.ok) {
-          messageEl.innerHTML = '<p class="success-msg">✅ Your response has been submitted. Thank you!</p>';
+        if (res.ok) {
+          messageEl.innerHTML = '<p class="success-msg">✅ Thank you! Your response has been saved.</p>';
+          setTimeout(() => {
+            window.close(); // closes the page after showing message
+          }, 2000);
           form.reset();
-          // Auto close page after 3 seconds
-          setTimeout(() => { window.close(); }, 3000);
         } else {
           messageEl.innerHTML = '<p class="error-msg">⚠️ Submission failed. Please try again.</p>';
         }
-      } catch (error) {
-        messageEl.innerHTML = '<p class="error-msg">⚠️ Error submitting data.</p>';
+      } catch (err) {
+        messageEl.innerHTML = '<p class="error-msg">❌ Network error.</p>';
       }
     });
   </script>
 </body>
 </html>
-
