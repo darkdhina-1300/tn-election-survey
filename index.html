@@ -109,33 +109,42 @@
     <div id="message"></div>
   </div>
 
-  <script>
-    const form = document.getElementById("survey-form");
-    const messageEl = document.getElementById("message");
+<script>
+  document.getElementById("surveyForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const formData = Object.fromEntries(new FormData(form));
+    const formData = {
+      name: document.getElementById("name").value,
+      mobile: document.getElementById("mobile").value,
+      city: document.getElementById("city").value,
+      pincode: document.getElementById("pincode").value,
+      vote: document.getElementById("vote").value,
+      email: document.getElementById("email").value,
+      comment: document.getElementById("comment").value,
+    };
 
-      try {
-        const res = await fetch("/.netlify/functions/createIssue", {
-          method: "POST",
-          body: JSON.stringify(formData)
-        });
+    try {
+      const response = await fetch("/.netlify/functions/createIssue", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-        if (res.ok) {
-          messageEl.innerHTML = '<p class="success-msg">✅ Thank you! Your response has been saved.</p>';
-          setTimeout(() => {
-            window.close(); // closes the page after showing message
-          }, 2000);
-          form.reset();
-        } else {
-          messageEl.innerHTML = '<p class="error-msg">⚠️ Submission failed. Please try again.</p>';
-        }
-      } catch (err) {
-        messageEl.innerHTML = '<p class="error-msg">❌ Network error.</p>';
+      const result = await response.json();
+
+      if (response.ok) {
+        alert("✅ Submitted successfully! Thank you for your response.");
+        window.close();
+      } else {
+        alert("⚠️ Submission failed at server.\nDetails: " + result.details);
       }
-    });
-  </script>
+    } catch (err) {
+      alert("⚠️ Submission failed at client.\nError: " + err.message);
+      console.error("❌ Client-side Error:", err);
+    }
+  });
+</script>
+
 </body>
 </html>
+
