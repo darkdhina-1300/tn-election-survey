@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TN Election 2026 Voter Survey</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom right, #ffffff, #e6f0ff);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+    }
+    header {
+      text-align: center;
+      padding: 20px;
+    }
+    header img {
+      max-width: 100px;
+      margin-bottom: 10px;
+    }
+    header h1 {
+      font-size: 1.5rem;
+      color: #004080;
+    }
+    .form-card {
+      background: #fff;
+      padding: 20px;
+      margin: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 450px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #333;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #aaa;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(45deg, #ff9933, #138808, #000080);
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover {
+      opacity: 0.9;
+    }
+    .success-msg, .error-msg {
+      text-align: center;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    .success-msg { color: green; }
+    .error-msg { color: red; }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="logo.png" alt="Election Logo"/>
+    <h1>TN Election 2026 Voter Survey</h1>
+  </header>
+
+  <div class="form-card">
+    <form id="survey-form">
+      <div class="form-group">
+        <label for="name">Name *</label>
+        <input type="text" id="name" name="name" required/>
+      </div>
+
+      <div class="form-group">
+        <label for="mobile">Mobile Number *</label>
+        <input type="tel" id="mobile" name="mobile" pattern="[0-9]{10}" maxlength="10" required/>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email (Optional)</label>
+        <input type="email" id="email" name="email" placeholder="example@mail.com"/>
+      </div>
+
+      <div class="form-group">
+        <label for="city">City *</label>
+        <input type="text" id="city" name="city" required/>
+      </div>
+
+      <div class="form-group">
+        <label for="pincode">Pin Code *</label>
+        <input type="number" id="pincode" name="pincode" pattern="[0-9]{6}" required/>
+      </div>
+
+      <div class="form-group">
+        <label for="vote">Your Vote for TN Election 2026 *</label>
+        <select id="vote" name="vote" required>
+          <option value="">-- Select a Party --</option>
+          <option value="DMK">Dravida Munnetra Kazhagam (DMK)</option>
+          <option value="AIADMK">All India Anna Dravida Munnetra Kazhagam (AIADMK)</option>
+          <option value="TVK">Tamilaga Vettri Kazhagam (TVK)</option>
+          <option value="VCK">Viduthalai Chiruthaigal Katchi (VCK)</option>
+          <option value="NTK">Naam Tamilar Katchi (NTK)</option>
+          <option value="PMK">Pattali Makkal Katchi (PMK)</option>
+          <option value="INC">Indian National Congress (INC)</option>
+          <option value="BJP">Bharatiya Janata Party (BJP)</option>
+          <option value="CPI">Communist Party of India (CPI)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="comments">Comments (Optional)</label>
+        <textarea id="comments" name="comments" placeholder="Your additional thoughts..."></textarea>
+      </div>
+
+      <button type="submit">Submit</button>
+      <div id="message"></div>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById("survey-form");
+    const messageEl = document.getElementById("message");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+
+      // Build Issue JSON
+      const issue = {
+        title: `New Survey Response from ${formData.get("name")}`,
+        body:
+          `**Name:** ${formData.get("name")}\n` +
+          `**Mobile:** ${formData.get("mobile")}\n` +
+          `**City:** ${formData.get("city")}\n` +
+          `**Pin Code:** ${formData.get("pincode")}\n` +
+          `**Vote:** ${formData.get("vote")}\n` +
+          `**Email:** ${formData.get("email") || "N/A"}\n` +
+          `**Comments:** ${formData.get("comments") || "N/A"}\n`
+      };
+
+      try {
+        const response = await fetch("https://api.github.com/repos/YOUR-USERNAME/tn-election-survey/issues", {
+          method: "POST",
+          headers: {
+            "Authorization": "token YOUR_PERSONAL_ACCESS_TOKEN",
+            "Accept": "application/vnd.github+json"
+          },
+          body: JSON.stringify(issue)
+        });
+
+        if (response.ok) {
+          messageEl.innerHTML = '<p class="success-msg">✅ Your response has been submitted. Thank you!</p>';
+          form.reset();
+          // Auto close page after 3 seconds
+          setTimeout(() => { window.close(); }, 3000);
+        } else {
+          messageEl.innerHTML = '<p class="error-msg">⚠️ Submission failed. Please try again.</p>';
+        }
+      } catch (error) {
+        messageEl.innerHTML = '<p class="error-msg">⚠️ Error submitting data.</p>';
+      }
+    });
+  </script>
+</body>
+</html>
