@@ -1,131 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TN Election 2026 Voter Survey</title>
   <style>
-    body { font-family: Arial, sans-serif; background: linear-gradient( to bottom right, #ffffff, #e6f0ff); margin:0; display:flex; align-items:center; justify-content:center; min-height:100vh; }
-    .form-card { background:#fff; padding:20px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.08); width:100%; max-width:480px; }
-    header { text-align:center; margin-bottom:10px; }
-    header img { max-width:80px; display:block; margin:0 auto 6px; }
-    label { display:block; font-weight:600; margin-bottom:6px; color:#333; }
-    input, select, textarea { width:100%; padding:8px; border:1px solid #bbb; border-radius:6px; font-size:1rem; box-sizing:border-box; }
-    textarea { min-height:90px; resize:vertical; }
-    .form-group { margin-bottom:14px; }
-    button { width:100%; padding:12px; border:none; border-radius:8px; font-weight:700; cursor:pointer; background:linear-gradient(45deg,#ff9933,#138808,#000080); color:#fff; }
-    .success-msg { color:green; text-align:center; margin-top:12px; font-weight:700; }
-    .error-msg { color:red; text-align:center; margin-top:12px; font-weight:700; white-space:pre-wrap; }
-    .note { font-size:0.9rem; color:#555; text-align:center; margin-top:8px; }
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #138808, #ffffff, #FF9933);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    header {
+      text-align: center;
+      margin: 20px;
+    }
+    header img {
+      width: 80px;
+      height: 80px;
+    }
+    .card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+    h1 {
+      font-size: 22px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 10px;
+      background-color: #138808;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0d6606;
+    }
   </style>
 </head>
 <body>
-  <div class="form-card">
-    <header>
-      <h2>TN Election 2026 Voter Survey</h2>
-    </header>
+  <header>
+    <img src="logo.png" alt="Election Logo">
+  </header>
+  <div class="card">
+    <h1>TN Election 2026 Voter Survey</h1>
+    <form id="surveyForm">
+      <label for="name">Name *</label>
+      <input type="text" id="name" name="name" required>
 
-    <form id="survey-form">
-      <div class="form-group">
-        <label for="name">Name *</label>
-        <input id="name" name="name" required />
-      </div>
+      <label for="mobile">Mobile Number *</label>
+      <input type="tel" id="mobile" name="mobile" pattern="\d{10}" required>
 
-      <div class="form-group">
-        <label for="mobile">Mobile Number * (10 digits)</label>
-        <input id="mobile" name="mobile" pattern="\d{10}" maxlength="10" inputmode="numeric" required />
-      </div>
+      <label for="email">Email (Optional)</label>
+      <input type="email" id="email" name="email">
 
-      <div class="form-group">
-        <label for="city">City *</label>
-        <input id="city" name="city" required />
-      </div>
+      <label for="city">City *</label>
+      <input type="text" id="city" name="city" required>
 
-      <div class="form-group">
-        <label for="pincode">Pin Code * (6 digits)</label>
-        <input id="pincode" name="pincode" pattern="\d{6}" inputmode="numeric" required />
-      </div>
+      <label for="pincode">Pin Code *</label>
+      <input type="text" id="pincode" name="pincode" pattern="\d{6}" required>
 
-      <div class="form-group">
-        <label for="vote">Your Vote for TN Election 2026 *</label>
-        <select id="vote" name="vote" required>
-          <option value="">-- Select a Party --</option>
-          <option value="DMK">Dravida Munnetra Kazhagam (DMK)</option>
-          <option value="AIADMK">All India Anna Dravida Munnetra Kazhagam (AIADMK)</option>
-          <option value="TVK">Tamilaga Vettri Kazhagam (TVK)</option>
-          <option value="VCK">Viduthalai Chiruthaigal Katchi (VCK)</option>
-          <option value="NTK">Naam Tamilar Katchi (NTK)</option>
-          <option value="PMK">Pattali Makkal Katchi (PMK)</option>
-          <option value="INC">Indian National Congress (INC)</option>
-          <option value="BJP">Bharatiya Janata Party (BJP)</option>
-          <option value="CPI">Communist Party of India (CPI)</option>
-        </select>
-      </div>
+      <label for="vote">Your Vote for TN Election 2026 *</label>
+      <select id="vote" name="vote" required>
+        <option value="">-- Select a Party --</option>
+        <option value="DMK">Dravida Munnetra Kazhagam (DMK)</option>
+        <option value="AIADMK">All India Anna Dravida Munnetra Kazhagam (AIADMK)</option>
+        <option value="TVK">Tamilaga Vettri Kazhagam (TVK)</option>
+        <option value="VCK">Viduthalai Chiruthaigal Katchi (VCK)</option>
+        <option value="NTK">Naam Tamilar Katchi (NTK)</option>
+        <option value="PMK">Pattali Makkal Katchi (PMK)</option>
+        <option value="INC">Indian National Congress (INC)</option>
+        <option value="BJP">Bharatiya Janata Party (BJP)</option>
+        <option value="CPI">Communist Party of India (CPI)</option>
+      </select>
 
-      <div class="form-group">
-        <label for="email">Email (Optional)</label>
-        <input id="email" name="email" type="email" placeholder="example@mail.com" />
-      </div>
-
-      <div class="form-group">
-        <label for="comment">Comments (Optional)</label>
-        <textarea id="comment" name="comment" placeholder="Your additional thoughts..."></textarea>
-      </div>
+      <label for="comment">Comment</label>
+      <textarea id="comment" name="comment" rows="3"></textarea>
 
       <button type="submit">Submit</button>
-      <div id="message"></div>
-      <div class="note">After submit the page will try to close automatically.</div>
     </form>
+    <p id="status" style="text-align:center;margin-top:15px;"></p>
   </div>
 
   <script>
-    const form = document.getElementById('survey-form');
-    const messageEl = document.getElementById('message');
-    const API_ENDPOINT = '/.netlify/functions/createIssue';
-
-    form.addEventListener('submit', async (e) => {
+    document.getElementById('surveyForm').addEventListener('submit', async function(e) {
       e.preventDefault();
-      messageEl.innerHTML = '';
-
-      const payload = {
-        name: document.getElementById('name').value.trim(),
-        mobile: document.getElementById('mobile').value.trim(),
-        city: document.getElementById('city').value.trim(),
-        pincode: document.getElementById('pincode').value.trim(),
+      const status = document.getElementById('status');
+      const data = {
+        name: document.getElementById('name').value,
+        mobile: document.getElementById('mobile').value,
+        email: document.getElementById('email').value,
+        city: document.getElementById('city').value,
+        pincode: document.getElementById('pincode').value,
         vote: document.getElementById('vote').value,
-        email: document.getElementById('email').value.trim(),
-        comment: document.getElementById('comment').value.trim()
+        comment: document.getElementById('comment').value
       };
 
-      // Basic client validation
-      if (!payload.name || !payload.mobile || !payload.city || !payload.pincode || !payload.vote) {
-        messageEl.innerHTML = '<div class="error-msg">Please fill all mandatory fields.</div>';
-        return;
-      }
-
       try {
-        const res = await fetch(API_ENDPOINT, {
+        const response = await fetch('/.netlify/functions/createIssue', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
+          body: JSON.stringify(data)
         });
 
-        const data = await res.json().catch(() => ({ message: 'No JSON response' }));
-
-        if (res.ok) {
-          messageEl.innerHTML = '<div class="success-msg">✅ Your response has been submitted. Thank you!</div>';
-          form.reset();
-          setTimeout(() => {
-            try { window.close(); } catch (err) {}
-          }, 2500);
+        if (response.ok) {
+          status.innerHTML = "✅ Thank you! Your response has been submitted.";
+          setTimeout(() => { window.close(); }, 2000);
         } else {
-          // Show detailed server error
-          const details = data && (data.details || data.error || JSON.stringify(data));
-          messageEl.innerHTML = '<div class="error-msg">⚠️ Submission failed (server).\n' + details + '</div>';
+          status.innerHTML = "⚠️ Submission failed. Please try again.";
         }
-      } catch (err) {
-        messageEl.innerHTML = '<div class="error-msg">⚠️ Submission failed (client/network).\n' + err.message + '</div>';
-        console.error('Client error:', err);
+      } catch (error) {
+        status.innerHTML = "⚠️ Error submitting form.";
       }
     });
   </script>
