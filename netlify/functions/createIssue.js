@@ -1,5 +1,3 @@
-const fetch = require("node-fetch");
-
 exports.handler = async (event) => {
   try {
     const body = JSON.parse(event.body);
@@ -44,7 +42,6 @@ exports.handler = async (event) => {
     };
   } catch (err) {
     console.error("❌ Netlify Function Error:", err.message);
-
     return {
       statusCode: 500,
       body: JSON.stringify({
