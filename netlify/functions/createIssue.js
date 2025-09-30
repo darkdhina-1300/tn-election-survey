@@ -4,15 +4,16 @@ exports.handler = async (event) => {
   try {
     const body = JSON.parse(event.body);
 
-    const GITHUB_USER = "darkdhina-1300";  // your GitHub ID
-    const REPO_NAME = "tn-election-survey"; // your repo name
+    // GitHub repo details
+    const GITHUB_USER = "darkdhina-1300";
+    const REPO_NAME = "tn-election-survey";
 
     const response = await fetch(
       `https://api.github.com/repos/${GITHUB_USER}/${REPO_NAME}/issues`,
       {
         method: "POST",
         headers: {
-          "Authorization": `token ${process.env.GH_TOKEN}`, // GitHub PAT from Netlify env
+          "Authorization": `token ${process.env.GH_TOKEN}`,
           "Accept": "application/vnd.github+json",
         },
         body: JSON.stringify({
@@ -31,7 +32,10 @@ exports.handler = async (event) => {
     );
 
     if (!response.ok) {
-      throw new Error(`GitHub API error: ${response.status} ${await response.text()}`);
+      const errorText = await response.text();
+      throw new Error(
+        `GitHub API error: ${response.status} - ${response.statusText}\nDetails: ${errorText}`
+      );
     }
 
     return {
@@ -39,9 +43,14 @@ exports.handler = async (event) => {
       body: JSON.stringify({ message: "Success" }),
     };
   } catch (err) {
+    console.error("❌ Netlify Function Error:", err.message);
+
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: err.message }),
+      body: JSON.stringify({
+        error: "Netlify Function failed",
+        details: err.message,
+      }),
     };
   }
 };
