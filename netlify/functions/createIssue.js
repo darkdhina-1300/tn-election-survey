@@ -1,20 +1,18 @@
-// netlify/functions/createIssue.js
 const fetch = require("node-fetch");
 
 exports.handler = async (event) => {
   try {
     const body = JSON.parse(event.body);
 
-    // Your GitHub username and repo
-    const GITHUB_USER = "darkdhina-1300";
-    const REPO_NAME = "tn-election-survey";
+    const GITHUB_USER = "darkdhina-1300";  // your GitHub ID
+    const REPO_NAME = "tn-election-survey"; // your repo name
 
     const response = await fetch(
       `https://api.github.com/repos/${GITHUB_USER}/${REPO_NAME}/issues`,
       {
         method: "POST",
         headers: {
-          "Authorization": `token ${process.env.GH_TOKEN}`, // Keep token from Netlify env
+          "Authorization": `token ${process.env.GH_TOKEN}`, // GitHub PAT from Netlify env
           "Accept": "application/vnd.github+json",
         },
         body: JSON.stringify({
