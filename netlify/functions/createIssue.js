@@ -1,36 +1,70 @@
 const fetch = require("node-fetch");
 
 exports.handler = async (event) => {
+  if (event.httpMethod !== "POST") {
+    return { statusCode: 405, body: "Method Not Allowed" };
+  }
+
   try {
     const data = JSON.parse(event.body);
-    const { name, mobile, email, city, pincode, vote, comment } = data;
 
-    const issueTitle = `Survey response from ${name}`;
-    const issueBody = `
-Name: ${name}
-Mobile: ${mobile}
-Email: ${email}
-City: ${city}
-PinCode: ${pincode}
-Vote: ${vote}
-Comment: ${comment}
-    `;
+    // Format as CSV row in the correct order
+    const row = `${data.name},${data.mobile},${data.email || ""},${data.city},${data.pincode},${data.vote},${data.comment || ""}\n`;
 
-    const response = await fetch("https://api.github.com/repos/darkdhina-1300/tn-election-survey/issues", {
-      method: "POST",
-      headers: {
-        Authorization: `token ${process.env.GH_TOKEN}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ title: issueTitle, body: issueBody }),
+    const token = process.env.GH_TOKEN; // GitHub Personal Access Token
+    const repo = "darkdhina-1300/tn-election-survey"; // ✅ your repo
+    const path = "data.csv";
+
+    // Fetch current data.csv from GitHub
+    const res = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
+      headers: { Authorization: `token ${token}` }
     });
 
-    if (!response.ok) {
-      throw new Error(`GitHub API error: ${response.statusText}`);
+    let content = "";
+    let sha = null;
+
+    if (res.ok) {
+      const file = await res.json();
+      content = Buffer.from(file.content, "base64").toString("utf-8");
+      sha = file.sha;
+    } else if (res.status === 404) {
+      // If file not found, create with headers
+      content = "Name,Mobile,Email,City,PinCode,Vote,Comment\n";
+    } else {
+      throw new Error("Unable to access data.csv in repo");
     }
 
-    return { statusCode: 200, body: JSON.stringify({ message: "Issue created" }) };
+    // Append new row
+    content += row;
+
+    // Push updated file back to GitHub
+    const updateRes = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
+      method: "PUT",
+      headers: {
+        Authorization: `token ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: "Update data.csv with new submission",
+        content: Buffer.from(content).toString("base64"),
+        sha: sha || undefined
+      })
+    });
+
+    if (!updateRes.ok) {
+      const errText = await updateRes.text();
+      throw new Error(`GitHub update failed: ${errText}`);
+    }
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ message: "Submission saved to data.csv ✅" })
+    };
   } catch (error) {
-    return { statusCode: 500, body: JSON.stringify({ error: error.message }) };
+    console.error("Error:", error.message);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: "Server error: " + error.message })
+    };
   }
 };
